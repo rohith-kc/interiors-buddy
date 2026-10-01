@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interiors Buddy — quote evaluator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+<div class="wrap">
+
+  <header class="page">
+    <span class="eyebrow">Interiors Buddy</span>
+    <h1>Know what you're actually paying for</h1>
+    <p class="lede">An interior/modular-furniture quote is a wall of line items in whatever format each vendor feels like using. This reads it for you, attaches a real ₹/sqft rate to every item, checks it against typical market ranges and your own floor plan, and tells you what's missing before you sign anything.</p>
+  </header>
+
+  <section class="how-it-works">
+    <h2>How this works</h2>
+    <ol>
+      <li><strong>Upload your floor plan</strong> (optional, but worth doing) — a photo or screenshot of the plan is enough. It lists every room it can find.</li>
+      <li><strong>Upload each vendor's quote</strong> as a PDF, or paste the text in if the PDF is a scanned image.</li>
+      <li>Every line item gets read into a table with a <strong>₹/sqft rate</strong> worked out automatically, from the stated rate or from the panel's height × width.</li>
+      <li>Each rate is checked against a <strong>typical market range</strong>, each item against <strong>your own must-have list</strong>, and — if you uploaded one — each room against your <strong>floor plan</strong>, so an unpriced bedroom or a kitchen missing its overhead unit shows up on its own.</li>
+      <li>Load two or three vendors to see them <strong>side by side</strong>, then ask for a plain-English read on the real gaps and which way to lean.</li>
+    </ol>
+  </section>
+
+  <section class="setup">
+    <details>
+      <summary>What should these quotes include?</summary>
+      <div class="setup-body">
+        <p class="note">One item per line. Every pasted quote is checked against this list, so anything missing shows up as a flag instead of something you have to notice yourself.</p>
+        <textarea id="requirementList"></textarea>
+      </div>
+    </details>
+    <details>
+      <summary>₹/sqft benchmark ranges</summary>
+      <div class="setup-body">
+        <p class="note">Rough, indicative tier-1-India figures — not a sourced market dataset. Adjust them to your city before trusting a flag.</p>
+        <div class="bench-head bench-row"><div>Category</div><div>Low ₹</div><div>High ₹</div></div>
+        <div id="benchEditor"></div>
+      </div>
+    </details>
+  </section>
+
+  <section class="floorplan">
+    <h2>Floor plan <span class="opt">(optional)</span></h2>
+    <p class="lede">A photo or screenshot of your layout — even a rough one with room labels — lets every quote be checked room by room instead of just item by item.</p>
+    <div class="row">
+      <input type="file" id="floorplanFile" accept="image/png,image/jpeg,image/webp">
+      <button id="floorplanBtn">Read floor plan</button>
+      <span class="status-line" id="floorplanStatus"></span>
+    </div>
+    <div class="chips" id="floorplanRooms"></div>
+  </section>
+
+  <nav class="tabs" id="tabs"></nav>
+  <section class="panel" id="panel"></section>
+
+  <section class="compare" id="compareSection" hidden>
+    <h2>Side by side</h2>
+    <div id="compareBody"></div>
+  </section>
+
+  <section class="guidance">
+    <h2>Guidance</h2>
+    <p class="lede">Ask Claude to read everything entered so far — every vendor, every flag, the floor plan — and call out the real strengths, weak spots, and which way to lean.</p>
+    <div class="row">
+      <button id="guidanceBtn">Get guidance</button>
+      <span class="status-line" id="guidanceStatus"></span>
+    </div>
+    <div class="guidance-out" id="guidanceOut"></div>
+  </section>
+
+  <footer class="page">
+    Benchmark ranges and the AI reading of each quote are starting points, not verified facts — vendor terminology, your city, and material grade all move real prices. A ₹/sqft rate for an item quoted only by height × width is derived as (height mm × width mm ÷ 92903) × qty; running-feet, per-piece and lump-sum items are shown as entered since a sqft rate isn't meaningful for them. Quotes and floor plans you upload are sent to Anthropic's API to be read and are not stored by this app.
+  </footer>
+</div>
+<script src="/static/app.js"></script>
+</body>
+</html>
